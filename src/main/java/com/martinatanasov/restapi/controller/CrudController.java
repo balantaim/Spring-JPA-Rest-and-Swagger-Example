@@ -17,6 +17,13 @@ public class CrudController {
 
     final private EmployeeRepository employeeRepository;
 
+    //Remove white spaces
+//    @InitBinder
+//    public void initBinder(WebDataBinder webDataBinder){
+//        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+//        webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+//    }
+
     @Autowired
     public CrudController(EmployeeRepository employeeRepository){
         this.employeeRepository = employeeRepository;
@@ -67,7 +74,6 @@ public class CrudController {
             return employeeRepository.save(employee);
         }
     }
-
     @DeleteMapping("/employees/{employeeId}")
     public Employee deleteEmployee(@PathVariable int employeeId){
         Optional<Employee> result = employeeRepository.findById(employeeId);
@@ -81,7 +87,6 @@ public class CrudController {
             throw new EmployeeNotFoundException("Employee id not found " + employeeId);
         }
     }
-
     @ExceptionHandler
     public ResponseEntity<EmployeeErrorResponse> handleException(EmployeeNotFoundException exception){
         EmployeeErrorResponse error = new EmployeeErrorResponse();
@@ -91,6 +96,5 @@ public class CrudController {
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
-
 
 }

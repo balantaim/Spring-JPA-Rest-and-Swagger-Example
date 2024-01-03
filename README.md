@@ -2,7 +2,7 @@
 
 This is Spring JPA rest project with MySQL database and swagger-ui for testing purpose.
 Spring boot version: 3.2.0
-Features: JPA Rest, Swagger-ui, CRUD, Custom exception handler
+Features: JPA Data Rest, Swagger-ui, CRUD, Custom exception handler, JPA Validation
 
 Software requires: 
 1. MySQL Server(not included in the project, for more details check URL: [MySQL community server](https://dev.mysql.com/downloads/mysql));
