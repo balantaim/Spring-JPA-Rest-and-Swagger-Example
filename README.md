@@ -29,14 +29,14 @@ Project setup:
 
 <table>
   <tr>
-    <td><img src="images/Capture1.PNG" alt="swagger-ui" width=270 height=480></td>
-    <td><img src="images/Capture2.PNG" alt="swagger-ui" width=270 height=480></td>
-    <td><img src="images/Capture3.PNG" alt="swagger-ui" width=270 height=480></td>
+    <td><img src="images/Capture1.PNG" alt="swagger-ui" width=270 height=260></td>
+    <td><img src="images/Capture2.PNG" alt="swagger-ui" width=270 height=260></td>
+    <td><img src="images/Capture3.PNG" alt="swagger-ui" width=270 height=260></td>
   </tr>
   <tr>
-    <td><img src="images/Capture4.PNG" alt="swagger-ui" width=270 height=480></td>
-    <td><img src="images/Capture5.PNG" alt="swagger-ui" width=270 height=480></td>
-    <td><img src="images/Capture6.PNG" alt="swagger-ui" width=270 height=480></td>
+    <td><img src="images/Capture4.PNG" alt="swagger-ui" width=270 height=260></td>
+    <td><img src="images/Capture5.PNG" alt="swagger-ui" width=270 height=260></td>
+    <td><img src="images/Capture6.PNG" alt="swagger-ui" width=270 height=260></td>
   </tr>
  </table>
 
