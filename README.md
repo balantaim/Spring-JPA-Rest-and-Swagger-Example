@@ -17,13 +17,20 @@ Project setup:
 2. Install Java 17+ LTS
 3. Create new user in the DB with all privilegies by runing this script in the MySQL Workbench:
 
-	CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
+```sql
+CREATE USER 'springuser'@'localhost' IDENTIFIED BY 'springuser';
+GRANT ALL PRIVILEGES ON * . * TO 'springuser'@'localhost';
+```
 
-	GRANT ALL PRIVILEGES ON * . * TO 'springuser'@'localhost';
+4. Create new database in the DB with name "employee_directory" 
 
-4. Before running the project change configuration "spring.jpa.hibernate.ddl-auto=create" in application.properties
-5. Run the project and load swagger-ui with this custom link [/swagger](http://localhost:8080/swagger)
-6. Available endpoints: [REST endpoints http://localhost:8080/api/v1/employees](http://localhost:8080/api/v1/employees)
+```sql
+CREATE DATABASE employee_directory;
+```
+
+5. Before running the project change configuration "spring.jpa.hibernate.ddl-auto=create" in application.properties
+6. Run the project and load swagger-ui with this custom link [/swagger](http://localhost:8080/swagger)
+7. Available endpoints: [REST endpoints http://localhost:8080/api/v1/employees](http://localhost:8080/api/v1/employees)
 
 ![Preview swagger-ui](images/Capture.PNG)
 
