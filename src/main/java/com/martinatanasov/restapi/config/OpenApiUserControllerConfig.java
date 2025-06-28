@@ -16,4 +16,5 @@ public class OpenApiUserControllerConfig {
                 .pathsToMatch(BASE_PATH + "/**") // Match only employees-related endpoints
                 .build();
     }
+
 }

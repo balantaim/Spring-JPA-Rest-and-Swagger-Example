@@ -44,11 +44,9 @@ public class CrudController {
     @ApiResponse(responseCode = "404", description = "Employee not found")
     @GetMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable Integer employeeId) {
-        if (employeeId != null) {
-            return ResponseEntity.ok(employeeService.getEmployee(employeeId));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return employeeService.getEmployee(employeeId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Add employee", description = "Add new employee record")
@@ -75,19 +73,13 @@ public class CrudController {
     @PutMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO,
                                                       @PathVariable Integer employeeId) {
-        if (employeeId != null) {
-            return ResponseEntity.ok(employeeService.updateEmployee(employeeId, employeeDTO));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return employeeService.updateEmployee(employeeId, employeeDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Delete employees", description = "Delete single employee")
-    @ApiResponse(responseCode = "204", description = "Employee deleted", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
-    })
-    @ApiResponse(responseCode = "404", description = "Employee not found")
+    @ApiResponse(responseCode = "204", description = "Employee deleted")
     @DeleteMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable Integer employeeId) {
         employeeService.deleteEmployee(employeeId);
