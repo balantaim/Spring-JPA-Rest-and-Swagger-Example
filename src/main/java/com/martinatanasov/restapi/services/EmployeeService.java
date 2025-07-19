@@ -11,6 +11,10 @@ public interface EmployeeService {
 
     Optional<EmployeeDTO> getEmployee(Integer id);
 
+    Optional<EmployeeDTO> getEmployeeByEmail(String email);
+
+    Optional<EmployeeDTO> getFirstEmployeeByFirstName(String firstName);
+
     EmployeeDTO addEmployee(EmployeeDTO employeeDTO);
 
     Optional<EmployeeDTO> updateEmployee(Integer employeeId, EmployeeDTO employeeDTO);

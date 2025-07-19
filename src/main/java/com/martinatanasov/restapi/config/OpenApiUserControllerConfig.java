@@ -4,7 +4,7 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static com.martinatanasov.restapi.controllers.CrudController.BASE_PATH;
+import static com.martinatanasov.restapi.controllers.EmployeeController.BASE_PATH;
 
 @Configuration
 public class OpenApiUserControllerConfig {

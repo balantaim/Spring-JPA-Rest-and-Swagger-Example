@@ -53,43 +53,50 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    // 4. Malformed JSON
+    // 4. Resource already exists
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<String> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
+        log.error("Error: {}", String.valueOf(ex));
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    // 5. Malformed JSON
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleMalformedJson(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>("Malformed JSON request", HttpStatus.BAD_REQUEST);
     }
 
-    // 5. Method not supported
+    // 6. Method not supported
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<String> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
         return new ResponseEntity<>("HTTP method not supported", HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    // 6. Data integrity (e.g. constraint violations, duplicates)
+    // 7. Data integrity (e.g. constraint violations, duplicates)
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         return new ResponseEntity<>("Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage(), HttpStatus.CONFLICT);
     }
 
-    // 7. Database query timeout
+    // 8. Database query timeout
     @ExceptionHandler(QueryTimeoutException.class)
     public ResponseEntity<String> handleQueryTimeout(QueryTimeoutException ex) {
         return new ResponseEntity<>("Database query timed out", HttpStatus.REQUEST_TIMEOUT);
     }
 
-    // 8. Hibernate connection timeout
+    // 9. Hibernate connection timeout
     @ExceptionHandler(JDBCConnectionException.class)
     public ResponseEntity<String> handleJDBCConnectionTimeout(JDBCConnectionException ex) {
         return new ResponseEntity<>("Database connection timeout", HttpStatus.GATEWAY_TIMEOUT);
     }
 
-    // 9. Controller (async) timeout
+    // 10. Controller (async) timeout
     @ExceptionHandler(AsyncRequestTimeoutException.class)
     public ResponseEntity<String> handleAsyncTimeout(AsyncRequestTimeoutException ex) {
         return new ResponseEntity<>("Request processing timeout", HttpStatus.REQUEST_TIMEOUT);
     }
 
-    // 10. Mismatch exceptions
+    // 11. Mismatch exceptions
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         final String param = ex.getName();
@@ -98,7 +105,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
-    // 11. Fallback for any other unexpected exceptions
+    // 12. Fallback for any other unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex) {
         log.error("Error: {}", String.valueOf(ex));

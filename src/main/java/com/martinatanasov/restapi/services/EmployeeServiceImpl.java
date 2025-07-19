@@ -2,6 +2,7 @@ package com.martinatanasov.restapi.services;
 
 
 import com.martinatanasov.restapi.entities.Employee;
+import com.martinatanasov.restapi.exception.ResourceAlreadyExistsException;
 import com.martinatanasov.restapi.mappers.EmployeeMapper;
 import com.martinatanasov.restapi.model.EmployeeDTO;
 import com.martinatanasov.restapi.repositories.EmployeeRepository;
@@ -35,7 +36,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Optional<EmployeeDTO> getFirstEmployeeByFirstName(final String firstName) {
+        return repository.findFirstByFirstName(firstName).map(mapper::toEmployeeDTO);
+    }
+
+    @Override
+    public Optional<EmployeeDTO> getEmployeeByEmail(final String email) {
+        return repository.findByEmail(email).map(mapper::toEmployeeDTO);
+    }
+
+    @Override
     public EmployeeDTO addEmployee(final EmployeeDTO employeeDTO) {
+        final Optional<Employee> employee = repository.findByEmail(employeeDTO.email());
+        if (employee.isPresent()) {
+            log.warn("Employee with this email already exists: {}", employeeDTO.email());
+            throw new ResourceAlreadyExistsException("Employee with this email already exists: " + employeeDTO.email());
+        }
         final Employee savedEmployee = repository.save(mapper.toEmployee(employeeDTO));
         log.info("Added new employee: {}", savedEmployee);
         return mapper.toEmployeeDTO(savedEmployee);
