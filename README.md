@@ -60,5 +60,29 @@ sudo systemctl stop mysql
 sudo systemctl start mysql
 ```
 
+## Build native image (Optional)
+
+- Make sure GraalVM CE 21 or higher is installed on your system and "JAVA_HOME" is set
+- Install any necessary dependencies for your OS https://www.graalvm.org/latest/reference-manual/native-image/
+- Make sure "mvnw" file is executable
+
+Test native support
+
+```bash
+native-image --version
+```
+
+Build the executable image (Stored in .target/<your-project-name>)
+
+```bash
+./mvnw -Pnative native:compile
+```
+
+Run the native image
+
+```bash
+./target/<your-project-name>
+```
+
 
 

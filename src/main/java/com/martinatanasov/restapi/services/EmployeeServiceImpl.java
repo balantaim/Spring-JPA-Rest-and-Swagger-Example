@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDTO addEmployee(final EmployeeDTO employeeDTO) {
         final Optional<Employee> employee = repository.findByEmail(employeeDTO.email());
         if (employee.isPresent()) {
-            log.warn("Employee with this email already exists: {}", employeeDTO.email());
+            log.error("Employee with this email already exists: {}", employeeDTO.email());
             throw new ResourceAlreadyExistsException("Employee with this email already exists: " + employeeDTO.email());
         }
         final Employee savedEmployee = repository.save(mapper.toEmployee(employeeDTO));

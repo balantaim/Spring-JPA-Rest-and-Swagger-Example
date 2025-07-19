@@ -3,7 +3,6 @@ package com.martinatanasov.restapi.exception;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.QueryTimeoutException;
 import jakarta.validation.ConstraintViolationException;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Slf4j
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -56,7 +55,6 @@ public class GlobalExceptionHandler {
     // 4. Resource already exists
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<String> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
-        log.error("Error: {}", String.valueOf(ex));
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
@@ -108,7 +106,6 @@ public class GlobalExceptionHandler {
     // 12. Fallback for any other unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGlobalException(Exception ex) {
-        log.error("Error: {}", String.valueOf(ex));
         return new ResponseEntity<>("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
