@@ -1,28 +1,12 @@
 package com.martinatanasov.restapi;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
+import com.martinatanasov.restapi.security.RsaKeyProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@OpenAPIDefinition(
-		info = @Info(
-				title = "Simple Spring JPA Rest and Swagger Example",
-				version = "1.0.0",
-				description = "Spring JPA rest project with MySQL database and swagger-ui for testing purpose",
-				//termsOfService = "http://",
-				contact = @Contact(
-						name = "Martin Atanasov"
-						//email = .....
-				)
-//				,license = @License(
-//					name = "no license",
-//					url = "http://"
-//				)
-		)
-)
+@EnableConfigurationProperties(RsaKeyProperties.class)
 public class RestCrudApplication {
 
 	public static void main(String[] args) {
