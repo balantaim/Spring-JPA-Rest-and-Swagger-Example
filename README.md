@@ -1,8 +1,8 @@
-# Simple Spring JPA Rest and Swagger Example
+# Employees CRUD Application
 
 ## Description
 
-This project is a Spring Boot Web MVC application that exposes a REST API secured with OAuth2 Resource Server using asymmetrically signed JWT tokens. It uses self-signed RSA key pairs (public and private) for token verification and does not require an external Authorization Server.
+This project is a Spring Boot Web MVC application that provides a RESTful API for managing employee data (Create, Read, Update, Delete). It is secured with OAuth2 Resource Server using asymmetrically self-signed JWT tokens, enabling stateless, secure authentication without the need for an external Authorization Server.
 
 The API is fully documented and accessible via Swagger UI and via Postman.
 
@@ -20,6 +20,9 @@ Useful tools (Optional):
 1. Install MySQL Server/Start MySQL via Docker or any other way you prefer;
 2. Install Java 21+ LTS
 3. Create new user in the DB with all privileges by running this script in the MySQL Workbench:
+
+> [!NOTE]  
+> Keep in mind that `mysqluser` variable can be changed for username and password values.
 
 ```sql
 CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
