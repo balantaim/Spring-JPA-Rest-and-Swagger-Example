@@ -6,7 +6,11 @@ This project is a Spring Boot Web MVC application that provides a RESTful API fo
 
 The API is fully documented and accessible via Swagger UI and via Postman.
 
-## Software requires: 
+## Technology stack
+
+<b>Tools/library:</b> Java, MySQL, Spring, JPA Data Rest, Spring Resource Server, JPA Validations, Swagger/OpenAPI, Mapstruct, Lombok, Rest Assured, Hamcrest, Mockito, JUnit 5, Maven
+
+## Software requirements: 
 1. MySQL Server(not included in the project, for more details check URL: [MySQL community server](https://dev.mysql.com/downloads/mysql));
 2. Java 21 LTS or latest;
 3. Postman (Optional)
@@ -17,9 +21,9 @@ Useful tools (Optional):
 
 ## Project setup:
 
-1. Install MySQL Server/Start MySQL via Docker or any other way you prefer;
+1. Install MySQL Server/Start MySQL via Docker or any other way you prefer
 2. Install Java 21+ LTS
-3. Create new user in the DB with all privileges by running this script in the MySQL Workbench:
+3. Create a new user in the DB with all privileges by running this script in the MySQL Workbench (Optional, but it is recommended for this purpose):
 
 > [!NOTE]  
 > Keep in mind that `mysqluser` variable can be changed for username and password values.
@@ -95,6 +99,15 @@ Test via JUnit
 ./mvnw test -Dspring.datasource.url=<url> -Dspring.datasource.username=<username> -Dspring.datasource.password=<password>
 ```
 
+Integration test via Rest Assured
+
+> [!IMPORTANT]  
+> We are using `maven-failsafe-plugin` to skip integration tests on goal: `test`. You can run integration tests manually.
+
+1. Get you JWT token and set it inside `src/test/java/com/martinatanasov/restapi/restassured/EmployeeControllerIT.java`
+2. Start your application
+3. Run the test
+
 ## Gallery
 
 ![Preview swagger-ui](images/Capture.PNG)
@@ -127,7 +140,7 @@ sudo systemctl start mysql
 
 ## Build native image (Optional)
 
-- Make sure GraalVM CE 21 or higher is installed on your system and "JAVA_HOME" is set
+- Make sure `GraalVM CE` 21 or higher is installed on your system and `JAVA_HOME` is set
 - Install all necessary dependencies for your OS: https://www.graalvm.org/latest/reference-manual/native-image/
 - Make sure `mvnw` file is executable
 
