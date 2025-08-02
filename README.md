@@ -13,11 +13,12 @@ The API is fully documented and accessible via Swagger UI and via Postman.
 ## Software requirements: 
 1. MySQL Server(not included in the project, for more details check URL: [MySQL community server](https://dev.mysql.com/downloads/mysql));
 2. Java 21 LTS or latest;
-3. Postman (Optional)
 
 Useful tools (Optional):
-1. MySQL Workbench user interface tool URL: [MySQL Workbench](https://dev.mysql.com/downloads/workbench)
-2. Multiple DB user interface tool URL: [DBever - Universal Database Tool](https://dbeaver.io/download)
+1. Postman the platform where teams build those APIs URL: [Postman](https://www.postman.com/downloads/)
+2. MySQL Workbench user interface tool URL: [MySQL Workbench](https://dev.mysql.com/downloads/workbench)
+3. Multiple DB user interface tool URL: [DBever - Universal Database Tool](https://dbeaver.io/download)
+
 
 ## Project setup:
 

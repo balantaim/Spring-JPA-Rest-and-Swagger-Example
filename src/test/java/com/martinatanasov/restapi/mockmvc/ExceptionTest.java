@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ExceptionTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockitoBean
-    EmployeeController employeeController;
+    private EmployeeController employeeController;
 
     @Test
     void testUnauthorizedAccess() throws Exception {

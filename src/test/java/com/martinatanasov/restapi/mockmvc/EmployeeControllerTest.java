@@ -23,13 +23,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EmployeeControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockitoBean
-    TokenService tokenService;
+    private TokenService tokenService;
 
     @MockitoBean
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     @Test
     @WithMockUser
