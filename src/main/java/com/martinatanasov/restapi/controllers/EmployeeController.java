@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,16 @@ public class EmployeeController {
     public static final String BASE_PATH = "/api/v1";
 
     @Operation(summary = "Get all employees", description = "Retrieve a list of all employees")
-    @ApiResponse(responseCode = "200", description = "Found the employees", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Found the employees", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Employees not found", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "404", description = "Employees not found")
     @GetMapping(BASE_PATH + "/employees")
     public ResponseEntity<Set<EmployeeDTO>> getAllEmployees() {
         //Return list of all employees from the Database
@@ -39,11 +45,16 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Get employee", description = "Retrieve a single employee by id")
-    @ApiResponse(responseCode = "200", description = "Found the employee", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Found the employee", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "404", description = "Employee not found")
     @GetMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final Integer employeeId) {
         return employeeService.getEmployee(employeeId)
@@ -52,11 +63,16 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Get employee by first name", description = "Retrieve a single employee by first name")
-    @ApiResponse(responseCode = "200", description = "Found the employee", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Found the employee", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "404", description = "Employee not found")
     @GetMapping(BASE_PATH + "/employees/names/{name}")
     public ResponseEntity<EmployeeDTO> getEmployeeByFirstName(@PathVariable final String name) {
         return employeeService.getFirstEmployeeByFirstName(name)
@@ -65,11 +81,16 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Get employee by email", description = "Retrieve a single employee by email")
-    @ApiResponse(responseCode = "200", description = "Found the employee", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Found the employee", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "404", description = "Employee not found")
     @GetMapping(BASE_PATH + "/employees/emails/{email}")
     public ResponseEntity<EmployeeDTO> getEmployeeByEmail(@PathVariable final String email) {
         return employeeService.getEmployeeByEmail(email)
@@ -78,11 +99,16 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Add employee", description = "Add new employee record")
-    @ApiResponse(responseCode = "201", description = "Create a new employee", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Create a new employee", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "409", description = "Employee already exists", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "409", description = "Employee already exists")
     @PostMapping(BASE_PATH + "/employees")
     public ResponseEntity<EmployeeDTO> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         if (employeeDTO.id() == null) {
@@ -94,11 +120,16 @@ public class EmployeeController {
     }
 
     @Operation(summary = "Update employee", description = "Update existing employee")
-    @ApiResponse(responseCode = "200", description = "Update the employee", content = {
-            @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = EmployeeDTO.class))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Update the employee", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = EmployeeDTO.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(type = "string"))
+            })
     })
-    @ApiResponse(responseCode = "404", description = "Employee not found")
     @PutMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO,
                                                       @PathVariable final Integer employeeId) {
