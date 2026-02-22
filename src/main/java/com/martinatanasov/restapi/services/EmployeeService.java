@@ -1,6 +1,7 @@
 package com.martinatanasov.restapi.services;
 
 import com.martinatanasov.restapi.model.EmployeeDTO;
+import com.martinatanasov.restapi.model.EmployeeLoginDTO;
 
 import java.util.Optional;
 import java.util.Set;
@@ -15,7 +16,7 @@ public interface EmployeeService {
 
     Optional<EmployeeDTO> getFirstEmployeeByFirstName(String firstName);
 
-    EmployeeDTO addEmployee(EmployeeDTO employeeDTO);
+    EmployeeDTO addEmployee(EmployeeLoginDTO employeeLoginDTO);
 
     Optional<EmployeeDTO> updateEmployee(Integer employeeId, EmployeeDTO employeeDTO);
 

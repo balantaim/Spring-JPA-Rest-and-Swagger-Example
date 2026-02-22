@@ -10,7 +10,7 @@ The API is fully documented and accessible via Swagger UI and via Postman.
 
 <b>Tools/library:</b> Java, MySQL, Spring, JPA Data Rest, Spring Resource Server, JPA Validations, Swagger/OpenAPI, Mapstruct, Lombok, Rest Assured, Hamcrest, Mockito, JUnit 5, Maven
 
-## Software requirements: 
+## Software requirements:
 1. MySQL Server(not included in the project, for more details check URL: [MySQL community server](https://dev.mysql.com/downloads/mysql));
 2. Java 21 LTS or latest;
 
@@ -26,7 +26,7 @@ Useful tools (Optional):
 2. Install Java 21+ LTS
 3. Create a new user in the DB with all privileges by running this script in the MySQL Workbench (Optional, but it is recommended for this purpose):
 
-> [!NOTE]  
+> [!NOTE]
 > Keep in mind that `mysqluser` variable can be changed for username and password values.
 
 ```sql
@@ -34,7 +34,7 @@ CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
 GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
 ```
 
-4. Create new database in the DB with name `employee_directory` 
+4. Create new database in the DB with name `employee_directory`
 
 ```sql
 CREATE DATABASE employee_directory;
@@ -61,22 +61,22 @@ Alternative generation: [jwt.io](https://www.jwt.io/)
 ## Test
 
 Base User:
-   - username: user
+   - username: abv@abv.bg
    - password: password
 
 Get token (Optional)
 
 ```bash
 curl --location --request POST 'localhost:8080/api/v1/auth/token' \
---header 'Authorization: Basic dXNlcjpwYXNzd29yZA=='
+--header 'Authorization: Basic YWJ2QGFidi5iZzpwYXNzd29yZA=='
 ```
 
 Test via Postman
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > Set environment `Web_MVC_JWT_env` and use request `Get token` in order to use automatically the token in all requests.
 
-> [!TIP]  
+> [!TIP]
 > The POST request uses dynamic variables for generating valid firstName, lastName and email.
 
 [Postman collection](postman/Web_MVC_JWT.postman_collection.json)
@@ -102,7 +102,7 @@ Test via JUnit
 
 Integration test via Rest Assured
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > We are using `maven-failsafe-plugin` to skip integration tests on goal: `test`. You can run integration tests manually.
 
 1. Get you JWT token and set it inside `src/test/java/com/martinatanasov/restapi/restassured/EmployeeControllerIT.java`
@@ -163,5 +163,8 @@ Run the native image
 ./target/<your-project-name>
 ```
 
+## Contact me
 
-
+[![Static Badge](https://img.shields.io/badge/Github-%2366099c?style=for-the-badge&logo=github&logoColor=black&labelColor=white)](https://github.com/balantaim)
+[![Static Badge](https://img.shields.io/badge/google_play-%23057308?style=for-the-badge)](https://play.google.com/store/apps/dev?id=4991626043223074729)
+[![Static Badge](https://img.shields.io/badge/Linkedin-%23321ee6?style=for-the-badge&logoColor=black&labelColor=white)](https://www.linkedin.com/in/martin-atanasov-47550b1a2/)

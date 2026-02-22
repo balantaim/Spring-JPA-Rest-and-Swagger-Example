@@ -1,896 +1,899 @@
 {
-	"info": {
-		"_postman_id": "dcc18261-1ab0-44a2-b0d7-2be048a549ec",
-		"name": "Web MVC - JWT",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33334519"
-	},
-	"item": [
-		{
-			"name": "Get token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"// Test the responce expect 200",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"// Get the token value from the response body",
-							"const json = pm.response.json();",
-							"// Set the token value as environment variable",
-							"pm.environment.set(\"token\", json.token);",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "password",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "user",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/auth/token",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"auth",
-						"token"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Employee",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/employees",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Get all Employees",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/employees",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Get Employee by ID",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/employees/20",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees",
-						"20"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Update Employee by ID",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"firstName\": \"alabala\",\n  \"lastName\": \"someName\",\n  \"email\": \"yhaa@yahoo.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/employees/20",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees",
-						"20"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Get Employee by first name",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/employees/names/lana",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees",
-						"names",
-						"lana"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Get Employee by Email",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/employees/emails/abv5@abv.bg",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees",
-						"emails",
-						"abv5@abv.bg"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Update Employee by ID Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 204\", function () {",
-							"    pm.response.to.have.status(204);",
-							"});"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/api/v1/employees/1",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"employees",
-						"1"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all Employees",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/v1/employees",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"employees"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "X-XSS-Protection",
-							"value": "0"
-						},
-						{
-							"key": "Cache-Control",
-							"value": "no-cache, no-store, max-age=0, must-revalidate"
-						},
-						{
-							"key": "Pragma",
-							"value": "no-cache"
-						},
-						{
-							"key": "Expires",
-							"value": "0"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						},
-						{
-							"key": "Transfer-Encoding",
-							"value": "chunked"
-						},
-						{
-							"key": "Date",
-							"value": "Sat, 26 Jul 2025 13:43:12 GMT"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=60"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
-				}
-			]
-		}
-	]
+  "info": {
+    "_postman_id": "dcc18261-1ab0-44a2-b0d7-2be048a549ec",
+    "name": "Web MVC - JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33334519"
+  },
+  "item": [
+    {
+      "name": "Get token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test the responce expect 200",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "// Get the token value from the response body",
+              "const json = pm.response.json();",
+              "// Set the token value as environment variable",
+              "pm.environment.set(\"token\", json.token);",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "password",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "user",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/auth/token",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Employee",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"1234\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/v1/employees",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get all Employees",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/employees",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get Employee by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/employees/20",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "20"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Update Employee by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"alabala\",\n  \"lastName\": \"someName\",\n  \"email\": \"yhaa@yahoo.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/v1/employees/20",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "20"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get Employee by first name",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/employees/names/lana",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "names",
+            "lana"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get Employee by Email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/employees/emails/Magdalen_Wehner2@yahoo.com",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "emails",
+            "Magdalen_Wehner2@yahoo.com"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Update Employee by ID Copy",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/v1/employees/1",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "employees",
+            "1"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all Employees",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/employees",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "employees"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "X-XSS-Protection",
+              "value": "0"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Expires",
+              "value": "0"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Sat, 26 Jul 2025 13:43:12 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 4,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail.com\"\n    },\n    {\n        \"id\": 20,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv6@abv.bg\"\n    },\n    {\n        \"id\": 21,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv7@abv.bg\"\n    },\n    {\n        \"id\": 23,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv99@abv.bg\"\n    },\n    {\n        \"id\": 9,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv2@abv.bg\"\n    },\n    {\n        \"id\": 8,\n        \"firstName\": \"aaa\",\n        \"lastName\": \"bbb\",\n        \"email\": \"abv1@abv.bg\"\n    },\n    {\n        \"id\": 3,\n        \"firstName\": \"sadasd\",\n        \"lastName\": \"asdsadasdadsad\",\n        \"email\": \"abv@gmail1.com\"\n    },\n    {\n        \"id\": 14,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp3@abv.bg\"\n    },\n    {\n        \"id\": 17,\n        \"firstName\": \"Lala\",\n        \"lastName\": \"ddd\",\n        \"email\": \"aa@abv.bg\"\n    },\n    {\n        \"id\": 13,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp2@abv.bg\"\n    },\n    {\n        \"id\": 15,\n        \"firstName\": \"al     i\",\n        \"lastName\": \"    b  a    ba\",\n        \"email\": \"lamp4@abv.bg\"\n    },\n    {\n        \"id\": 24,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv55@abv.bg\"\n    },\n    {\n        \"id\": 19,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv5@abv.bg\"\n    },\n    {\n        \"id\": 1,\n        \"firstName\": \"zzz\",\n        \"lastName\": \"vvv\",\n        \"email\": \"yahoo@gmail.com\"\n    },\n    {\n        \"id\": 2,\n        \"firstName\": \"Gogo\",\n        \"lastName\": \"Lala\",\n        \"email\": \"something@abv.bg\"\n    },\n    {\n        \"id\": 22,\n        \"firstName\": \"Lana\",\n        \"lastName\": \"Lang\",\n        \"email\": \"abv8@abv.bg\"\n    },\n    {\n        \"id\": 12,\n        \"firstName\": \"ali\",\n        \"lastName\": \"baba\",\n        \"email\": \"lamp@abv.bg\"\n    }\n]"
+        }
+      ]
+    }
+  ]
 }

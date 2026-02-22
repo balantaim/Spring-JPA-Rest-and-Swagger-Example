@@ -5,10 +5,12 @@ import com.martinatanasov.restapi.entities.Employee;
 import com.martinatanasov.restapi.exception.ResourceAlreadyExistsException;
 import com.martinatanasov.restapi.mappers.EmployeeMapper;
 import com.martinatanasov.restapi.model.EmployeeDTO;
+import com.martinatanasov.restapi.model.EmployeeLoginDTO;
 import com.martinatanasov.restapi.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -45,18 +47,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return repository.findByEmail(email).map(mapper::toEmployeeDTO);
     }
 
+    @Transactional
     @Override
-    public EmployeeDTO addEmployee(final EmployeeDTO employeeDTO) {
-        final Optional<Employee> employee = repository.findByEmail(employeeDTO.email());
+    public EmployeeDTO addEmployee(final EmployeeLoginDTO employeeLoginDTO) {
+        final Optional<Employee> employee = repository.findByEmail(employeeLoginDTO.email());
         if (employee.isPresent()) {
-            log.error("Employee with this email already exists: {}", employeeDTO.email());
-            throw new ResourceAlreadyExistsException("Employee with this email already exists: " + employeeDTO.email());
+            log.error("Employee with this email already exists: {}", employeeLoginDTO.email());
+            throw new ResourceAlreadyExistsException("Employee with this email already exists: " + employeeLoginDTO.email());
         }
-        final Employee savedEmployee = repository.save(mapper.toEmployee(employeeDTO));
+        final Employee savedEmployee = repository.save(mapper.toEmployee(employeeLoginDTO));
         log.info("Added new employee: {}", savedEmployee);
         return mapper.toEmployeeDTO(savedEmployee);
     }
 
+    @Transactional
     @Override
     public Optional<EmployeeDTO> updateEmployee(final Integer employeeId, EmployeeDTO employeeDTO) {
         return repository.findById(employeeId)
@@ -68,6 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 });
     }
 
+    @Transactional
     @Override
     public void deleteEmployee(final Integer employeeId) {
         final Optional<Employee> optionalEmployee = repository.findById(employeeId);

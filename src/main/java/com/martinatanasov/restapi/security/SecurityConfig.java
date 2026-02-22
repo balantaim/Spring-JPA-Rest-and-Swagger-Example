@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -47,7 +48,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(User.withUsername("user")
+        return new InMemoryUserDetailsManager(User.withUsername("abv@abv.bg")
                         .password(
                                 passwordEncoder().encode("password")
                         )
@@ -94,6 +95,8 @@ public class SecurityConfig {
                                         "/swagger/**",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**").permitAll()
+                                //Register path
+                                .requestMatchers(HttpMethod.POST, "/api/v1/employees").permitAll()
                                 //.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )

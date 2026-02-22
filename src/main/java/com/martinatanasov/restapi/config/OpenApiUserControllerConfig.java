@@ -52,8 +52,10 @@ public class OpenApiUserControllerConfig {
     @Bean
     public GroupedOpenApi userControllerApi() {
         return GroupedOpenApi.builder()
-                .group("employees") // Appears as tab in Swagger UI
-                .pathsToMatch(BASE_PATH + "/employees/**") // Match only employees-related endpoints
+                // Appears as tab in Swagger UI
+                .group("employees")
+                // Match only employees-related endpoints
+                .pathsToMatch(BASE_PATH + "/employees/**")
                 .build();
     }
 

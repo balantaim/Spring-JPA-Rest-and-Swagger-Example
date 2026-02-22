@@ -1,6 +1,7 @@
 package com.martinatanasov.restapi.controllers;
 
 import com.martinatanasov.restapi.model.EmployeeDTO;
+import com.martinatanasov.restapi.model.EmployeeLoginDTO;
 import com.martinatanasov.restapi.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -110,9 +111,9 @@ public class EmployeeController {
             })
     })
     @PostMapping(BASE_PATH + "/employees")
-    public ResponseEntity<EmployeeDTO> addEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        if (employeeDTO.id() == null) {
-            final EmployeeDTO createdEmployee = employeeService.addEmployee(employeeDTO);
+    public ResponseEntity<EmployeeDTO> registerEmployee(@Valid @RequestBody EmployeeLoginDTO employeeLoginDTO) {
+        if (employeeLoginDTO.id() == null) {
+            final EmployeeDTO createdEmployee = employeeService.addEmployee(employeeLoginDTO);
             return ResponseEntity.created(URI.create("/api/v1/employees/" + createdEmployee.id()))
                     .body(createdEmployee);
         }
