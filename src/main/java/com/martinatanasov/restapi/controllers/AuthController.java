@@ -1,6 +1,5 @@
 package com.martinatanasov.restapi.controllers;
 
-
 import com.martinatanasov.restapi.services.EmployeeService;
 import com.martinatanasov.restapi.services.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 import static com.martinatanasov.restapi.controllers.EmployeeController.BASE_PATH;
-
 
 @Slf4j
 @RequiredArgsConstructor

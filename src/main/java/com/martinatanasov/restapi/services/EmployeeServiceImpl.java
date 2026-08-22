@@ -7,6 +7,7 @@ import com.martinatanasov.restapi.mappers.EmployeeMapper;
 import com.martinatanasov.restapi.model.EmployeeDTO;
 import com.martinatanasov.restapi.model.EmployeeLoginDTO;
 import com.martinatanasov.restapi.repositories.EmployeeRepository;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeMapper mapper;
     private final EmployeeRepository repository;
