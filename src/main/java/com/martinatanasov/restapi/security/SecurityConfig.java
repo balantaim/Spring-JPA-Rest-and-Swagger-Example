@@ -19,12 +19,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -47,14 +49,15 @@ public class SecurityConfig {
         this.corsAllowedOrigins = corsAllowedOrigins;
     }
 
+    //Use in memory user only for testing purposes
     @Bean
     public UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager(User.withUsername("abv@abv.bg")
-                        .password(
-                                passwordEncoder().encode("password")
-                        )
-                        .authorities("READ_AND_WRITE")
-                        .build());
+                .password(
+                        passwordEncoder().encode("password")
+                )
+                .authorities("READ_AND_WRITE")
+                .build());
     }
 
     @Bean
@@ -74,12 +77,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors
@@ -88,6 +91,9 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .xssProtection(xxs -> xxs
                                 .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
+                        )
+                        .referrerPolicy(referrer -> referrer
+                                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
                         )
                 )
                 .authorizeHttpRequests(

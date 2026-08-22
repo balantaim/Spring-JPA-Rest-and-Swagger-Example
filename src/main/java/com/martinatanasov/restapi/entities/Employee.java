@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,12 +33,16 @@ public class Employee {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "create_date", nullable = false, updatable = false)
-    private Timestamp createDate;
+    private Instant createDate;
 
     @UpdateTimestamp
     @Column(name = "modified_date", nullable = false)
-    private Timestamp modifiedDate;
+    private Instant modifiedDate;
 
 }

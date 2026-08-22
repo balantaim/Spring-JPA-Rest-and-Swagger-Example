@@ -11,14 +11,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Optional;
-import java.util.Set;
-
 
 @Tag(name = "Employees REST API")
 @RequiredArgsConstructor
@@ -40,9 +41,10 @@ public class EmployeeController {
             })
     })
     @GetMapping(BASE_PATH + "/employees")
-    public ResponseEntity<Set<EmployeeDTO>> getAllEmployees() {
-        //Return list of all employees from the Database
-        return ResponseEntity.ok(employeeService.getAllEmployees());
+    public ResponseEntity<Page<EmployeeDTO>> getAllEmployees(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        return ResponseEntity.ok(employeeService.getAllEmployees(getPage(page, size)));
     }
 
     @Operation(summary = "Get employee", description = "Retrieve a single employee by id")
@@ -133,7 +135,7 @@ public class EmployeeController {
     })
     @PutMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO,
-                                                      @PathVariable final Integer employeeId) {
+            @PathVariable final Integer employeeId) {
         Optional<EmployeeDTO> updatedEmployeeDTO = employeeService.updateEmployee(employeeId, employeeDTO);
 
         return updatedEmployeeDTO.map(ResponseEntity::ok)
@@ -146,6 +148,16 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable Integer employeeId) {
         employeeService.deleteEmployee(employeeId);
         return ResponseEntity.noContent().build();
+    }
+
+    private static Pageable getPage(Integer page, Integer size) {
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null || size > 30) {
+            size = 5;
+        }
+        return PageRequest.of(page, size);
     }
 
 }
