@@ -48,9 +48,9 @@ Useful tools (Optional):
 - **CASE:** Docker container
     - Initiate the container with your values for username: `<db_name>` and password: `<db_pass>`
 
-    ```bash
-    TEST_DB_NAME=<db_name> TEST_DB_PASSWORD=<db_pass> docker compose up -d
-    ```
+        ```bash
+        TEST_DB_NAME=<db_name> TEST_DB_PASSWORD=<db_pass> docker compose up -d
+        ```
 
 4. Create new a schema with name `employee_directory` (Not required if you use Docker Compose's script)
 
