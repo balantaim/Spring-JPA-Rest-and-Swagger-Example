@@ -37,13 +37,13 @@ Useful tools (Optional):
 3. Create a new user in the DB with all privileges by running this script in the MySQL Workbench (Optional, but it is recommended for this purpose):
 - **CASE:** Local Datasource
 
-    >[!NOTE]
-    >Keep in mind that `mysqluser` variable can be changed for username and password values.
-
    ```sql
    CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
    GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
    ```
+
+>[!NOTE]
+>Keep in mind that `mysqluser` variable can be changed for username and password values.
 
 - **CASE:** Docker container
     - Initiate the container with your values for username: `<db_name>` and password: `<db_pass>`
@@ -54,9 +54,9 @@ Useful tools (Optional):
 
 4. Create new a schema with name `employee_directory` (Not required if you use Docker Compose's script)
 
-```sql
-CREATE DATABASE employee_directory;
-```
+    ```sql
+    CREATE DATABASE employee_directory;
+    ```
 
 5. Before running the project change configuration `spring.jpa.hibernate.ddl-auto=create` in application.properties
 6. Create folder in `src/main/resources/certs`
