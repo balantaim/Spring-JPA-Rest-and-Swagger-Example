@@ -19,20 +19,35 @@ Useful tools (Optional):
 2. MySQL Workbench user interface tool URL: [MySQL Workbench](https://dev.mysql.com/downloads/workbench)
 3. Multiple DB user interface tool URL: [DBever - Universal Database Tool](https://dbeaver.io/download)
 
+## Default parameters
+
+- Application port: `8080`
+- Default datasource port: `3306`
+- Docker datasource port: `3307`
+- Test username: `abv@abv.bg`
+- Test password: `password`
 
 ## Project setup:
 
 1. Install MySQL Server/Start MySQL via Docker or any other way you prefer
 2. Install Java 21+ LTS
 3. Create a new user in the DB with all privileges by running this script in the MySQL Workbench (Optional, but it is recommended for this purpose):
+- **CASE:** Local Datasource
 
-> [!NOTE]
-> Keep in mind that `mysqluser` variable can be changed for username and password values.
+    >[!NOTE]
+    >Keep in mind that `mysqluser` variable can be changed for username and password values.
 
-```sql
-CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
-GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
-```
+   ```sql
+   CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
+   GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
+   ```
+
+- **CASE:** Docker container
+    - Initiate the container with your values for username: `<db_name>` and password: `<db_pass>`
+
+    ```bash
+    TEST_DB_NAME=<db_name> TEST_DB_PASSWORD=<db_pass> docker compose up -d
+    ```
 
 4. Create new database in the DB with name `employee_directory`
 
