@@ -6,7 +6,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,17 +33,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final RsaKeyProperties rsaKeys;
+    private final String[] corsAllowedOrigins;
 
-    @Value("${cors.allowedOrigins}")
-    private String[] corsAllowedOrigins;
+    SecurityConfig(RsaKeyProperties rsaKeys,
+            @Value("${cors.allowedOrigins}") String[] corsAllowedOrigins) {
+        this.rsaKeys = rsaKeys;
+        this.corsAllowedOrigins = corsAllowedOrigins;
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -116,8 +117,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList(this.corsAllowedOrigins));
-        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Arrays.asList(corsAllowedOrigins));
+        config.setAllowCredentials(false);
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
