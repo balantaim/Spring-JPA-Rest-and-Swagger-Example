@@ -8,7 +8,7 @@ The API is fully documented and accessible via Swagger UI and via Postman.
 
 ## Technology stack
 
-<b>Tools/library:</b> Java, MySQL, Spring, JPA Data Rest, Spring Resource Server, JPA Validations, Swagger/OpenAPI, Mapstruct, Lombok, Rest Assured, Hamcrest, Mockito, JUnit 5, Maven
+**Tools/library:** Java, MySQL, Spring, JPA Data Rest, Spring Resource Server, Spring Validations, Swagger/OpenAPI, Mapstruct, Lombok, Rest Assured, Hamcrest, Bootui, Mockito, JUnit, Maven
 
 ## Software requirements:
 1. MySQL Server(not included in the project, for more details check URL: [MySQL community server](https://dev.mysql.com/downloads/mysql));
@@ -24,8 +24,11 @@ Useful tools (Optional):
 - Application port: `8080`
 - Default datasource port: `3306`
 - Docker datasource port: `3307`
-- Test username: `abv@abv.bg`
-- Test password: `password`
+- Swagger: `/swagger`
+- Bootui (developer console): `/bootui`
+- In memory user:
+  - Test username: `abv@abv.bg`
+  - Test password: `password`
 
 ## Project setup:
 
@@ -49,7 +52,7 @@ Useful tools (Optional):
     TEST_DB_NAME=<db_name> TEST_DB_PASSWORD=<db_pass> docker compose up -d
     ```
 
-4. Create new database in the DB with name `employee_directory`
+4. Create new a schema with name `employee_directory` (Not required if you use Docker Compose's script)
 
 ```sql
 CREATE DATABASE employee_directory;
@@ -59,19 +62,19 @@ CREATE DATABASE employee_directory;
 6. Create folder in `src/main/resources/certs`
 7. Inside generate public and private keys RSA 2048 bits and save them in `src/main/resources/certs` with the following commands:
 
-Linux/Mac OS:
- - Private ket:
-```bash
-openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
-```
+**Linux/Mac OS:**
+- Private ket:
 
- - Public key:
-```bash
-openssl rsa -pubout -in private.pem -out public.pem
-```
+    ```bash
+    openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+    ```
 
-Alternative generation: [jwt.io](https://www.jwt.io/)
+- Public key:
+    ```bash
+    openssl rsa -pubout -in private.pem -out public.pem
+    ```
 
+    Alternative generation: [jwt.io](https://www.jwt.io/)
 
 ## Test
 
@@ -96,15 +99,15 @@ Test via Postman
 
 [Postman collection](postman/Web_MVC_JWT.postman_collection.json)
 
-Test via Swagger-UI
+**Test via Swagger-UI**
 
 [Swagger-UI](http://localhost:8080/swagger)
 
-Test JWT validity
+**Test JWT validity**
 
 [free JWT website](https://www.jwt.io/)
 
-Test via JUnit
+**Test via JUnit**
 
 - Replace `<url>` with your database URL
 - Replace `<username>` with your database username
@@ -115,7 +118,7 @@ Test via JUnit
 ./mvnw test -Dspring.datasource.url=<url> -Dspring.datasource.username=<username> -Dspring.datasource.password=<password>
 ```
 
-Integration test via Rest Assured
+**Integration test via Rest Assured**
 
 > [!IMPORTANT]
 > We are using `maven-failsafe-plugin` to skip integration tests on goal: `test`. You can run integration tests manually.
