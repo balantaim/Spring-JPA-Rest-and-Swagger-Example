@@ -46,7 +46,7 @@ Useful tools (Optional):
           GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
           ```
 
-       - Create user only with privileges for `employee_directory`:
+       - Create user only with privileges only for schema `employee_directory`:
            ```sql
            CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'password';
            GRANT ALL PRIVILEGES ON employee_directory.* TO 'mysqluser'@'localhost';
