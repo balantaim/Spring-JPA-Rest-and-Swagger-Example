@@ -11,10 +11,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -112,7 +114,7 @@ public class EmployeeController {
                             schema = @Schema(type = "string"))
             })
     })
-    @PostMapping(BASE_PATH + "/employees")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = BASE_PATH + "/employees")
     public ResponseEntity<EmployeeDTO> registerEmployee(@Valid @RequestBody EmployeeLoginDTO employeeLoginDTO) {
         if (employeeLoginDTO.id() == null) {
             final EmployeeDTO createdEmployee = employeeService.addEmployee(employeeLoginDTO);
@@ -133,7 +135,7 @@ public class EmployeeController {
                             schema = @Schema(type = "string"))
             })
     })
-    @PutMapping(BASE_PATH + "/employees/{employeeId}")
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO,
             @PathVariable final Integer employeeId) {
         Optional<EmployeeDTO> updatedEmployeeDTO = employeeService.updateEmployee(employeeId, employeeDTO);
@@ -150,7 +152,7 @@ public class EmployeeController {
         return ResponseEntity.noContent().build();
     }
 
-    private static Pageable getPage(Integer page, Integer size) {
+    private static Pageable getPage(@Nullable Integer page, @Nullable Integer size) {
         if (page == null) {
             page = 0;
         }

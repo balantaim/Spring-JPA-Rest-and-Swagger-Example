@@ -1,5 +1,7 @@
 # Employees CRUD Application
 
+### License: [Apache 2.0](LICENSE)
+
 ## Description
 
 This project is a Spring Boot Web MVC application that provides a RESTful API for managing employee data (Create, Read, Update, Delete). It is secured with OAuth2 Resource Server using asymmetrically self-signed JWT tokens, enabling stateless, secure authentication without the need for an external Authorization Server.
@@ -35,17 +37,29 @@ Useful tools (Optional):
 1. Install MySQL Server/Start MySQL via Docker or any other way you prefer
 2. Install Java 21+ LTS
 3. Create a new user in the DB with all privileges by running this script in the MySQL Workbench (Optional, but it is recommended for this purpose):
-- **CASE:** Local Datasource
+   - **CASE:** Local Datasource
 
-   ```sql
-   CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'mysqluser';
-   GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
-   ```
+       - Create user with all privileges:
+
+          ```sql
+          CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'password';
+          GRANT ALL PRIVILEGES ON * . * TO 'mysqluser'@'localhost';
+          ```
+
+       - Create user only with privileges for `employee_directory`:
+           ```sql
+           CREATE USER 'mysqluser'@'localhost' IDENTIFIED BY 'password';
+           GRANT ALL PRIVILEGES ON employee_directory.* TO 'mysqluser'@'localhost';
+           FLUSH PRIVILEGES;
+           ```
+
+
 
 >[!NOTE]
->Keep in mind that `mysqluser` variable can be changed for username and password values.
+>Keep in mind that `mysqluser`/`password` variable can be changed for your setup.
 
 - **CASE:** Docker container
+
     - Initiate the container with your values for username: `<db_name>` and password: `<db_pass>`
 
         ```bash
@@ -79,8 +93,8 @@ Useful tools (Optional):
 ## Test
 
 Base User:
-   - username: abv@abv.bg
-   - password: password
+   - username: `abv@abv.bg`
+   - password: `password`
 
 Get token (Optional)
 
@@ -89,7 +103,7 @@ curl --location --request POST 'localhost:8080/api/v1/auth/token' \
 --header 'Authorization: Basic YWJ2QGFidi5iZzpwYXNzd29yZA=='
 ```
 
-Test via Postman
+**Test via Postman**
 
 > [!IMPORTANT]
 > Set environment `Web_MVC_JWT_env` and use request `Get token` in order to use automatically the token in all requests.
@@ -98,6 +112,8 @@ Test via Postman
 > The POST request uses dynamic variables for generating valid firstName, lastName and email.
 
 [Postman collection](postman/Web_MVC_JWT.postman_collection.json)
+
+[Postman environment](postman/Web_MVC_JWT_env.postman_environment.json)
 
 **Test via Swagger-UI**
 
@@ -129,8 +145,13 @@ Test via Postman
 
 ## Gallery
 
+**Swagger:**
 ![Preview swagger-ui](images/Capture.PNG)
 
+**Bootui:**
+![Preview bootui](images/Dev-console.png)
+
+**Swagger tests:**
 <table>
   <tr>
     <td><img src="images/Capture1.PNG" alt="swagger-ui"></td>

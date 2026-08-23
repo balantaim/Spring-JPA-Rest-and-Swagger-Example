@@ -1,112 +1,224 @@
 package com.martinatanasov.restapi.exception;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.QueryTimeoutException;
 import jakarta.validation.ConstraintViolationException;
-import org.hibernate.exception.JDBCConnectionException;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.validation.FieldError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
-
+@NullMarked
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     // 1. @Valid body errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<ErrorResponse> handleValidationErrors(
+            MethodArgumentNotValidException ex,
+            WebRequest request) {
 
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .reduce((first, second) -> first + "; " + second)
+                .orElse("Validation failed");
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                message,
+                request);
     }
 
-    // 2. @Validated query/path param errors
+    // 2. @Validated query/path parameter errors
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolation(ConstraintViolationException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getConstraintViolations().forEach(cv ->
-                errors.put(cv.getPropertyPath().toString(), cv.getMessage())
-        );
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(
+            ConstraintViolationException ex,
+            WebRequest request) {
+
+        String message = ex.getConstraintViolations()
+                .stream()
+                .map(cv -> cv.getPropertyPath() + ": " + cv.getMessage())
+                .reduce((first, second) -> first + "; " + second)
+                .orElse("Validation failed");
+
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                message,
+                request);
     }
 
     // 3. Entity not found
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleEntityNotFound(
+            EntityNotFoundException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request);
     }
 
     // 4. Resource already exists
     @ExceptionHandler(ResourceAlreadyExistsException.class)
-    public ResponseEntity<String> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleResourceAlreadyExists(
+            ResourceAlreadyExistsException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                ex.getMessage(),
+                request);
     }
 
     // 5. Malformed JSON
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<String> handleMalformedJson(HttpMessageNotReadableException ex) {
-        return new ResponseEntity<>("Malformed JSON request", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleMalformedJson(
+            HttpMessageNotReadableException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Malformed JSON request",
+                request);
     }
 
     // 6. Method not supported
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<String> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-        return new ResponseEntity<>("HTTP method not supported", HttpStatus.METHOD_NOT_ALLOWED);
+    @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleMethodNotSupported(
+            org.springframework.web.HttpRequestMethodNotSupportedException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.METHOD_NOT_ALLOWED,
+                HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(),
+                "HTTP method not supported",
+                request);
     }
 
-    // 7. Data integrity (e.g. constraint violations, duplicates)
+    // 7. Data integrity violation
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        return new ResponseEntity<>("Database constraint violation: " + Objects.requireNonNull(ex.getRootCause()).getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
+            DataIntegrityViolationException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                "Database constraint violation",
+                request);
     }
 
     // 8. Database query timeout
-    @ExceptionHandler(QueryTimeoutException.class)
-    public ResponseEntity<String> handleQueryTimeout(QueryTimeoutException ex) {
-        return new ResponseEntity<>("Database query timed out", HttpStatus.REQUEST_TIMEOUT);
+    @ExceptionHandler(org.springframework.dao.QueryTimeoutException.class)
+    public ResponseEntity<ErrorResponse> handleQueryTimeout(
+            org.springframework.dao.QueryTimeoutException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.REQUEST_TIMEOUT,
+                HttpStatus.REQUEST_TIMEOUT.getReasonPhrase(),
+                "Database query timed out",
+                request);
     }
 
-    // 9. Hibernate connection timeout
-    @ExceptionHandler(JDBCConnectionException.class)
-    public ResponseEntity<String> handleJDBCConnectionTimeout(JDBCConnectionException ex) {
-        return new ResponseEntity<>("Database connection timeout", HttpStatus.GATEWAY_TIMEOUT);
+    // 9. Hibernate/JDBC connection error
+    @ExceptionHandler(org.hibernate.exception.JDBCConnectionException.class)
+    public ResponseEntity<ErrorResponse> handleJDBCConnectionException(
+            org.hibernate.exception.JDBCConnectionException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.GATEWAY_TIMEOUT,
+                HttpStatus.GATEWAY_TIMEOUT.getReasonPhrase(),
+                "Database connection error",
+                request);
     }
 
-    // 10. Controller (async) timeout
+    // 10. Controller async timeout
     @ExceptionHandler(AsyncRequestTimeoutException.class)
-    public ResponseEntity<String> handleAsyncTimeout(AsyncRequestTimeoutException ex) {
-        return new ResponseEntity<>("Request processing timeout", HttpStatus.REQUEST_TIMEOUT);
+    public ResponseEntity<ErrorResponse> handleAsyncTimeout(
+            AsyncRequestTimeoutException ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.REQUEST_TIMEOUT,
+                HttpStatus.REQUEST_TIMEOUT.getReasonPhrase(),
+                "Request processing timeout",
+                request);
     }
 
-    // 11. Mismatch exceptions
+    // 11. Request parameter type mismatch
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(
+            MethodArgumentTypeMismatchException ex,
+            WebRequest request) {
+
         final String param = ex.getName();
-        final String requiredType = ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "unknown";
-        final String message = String.format("Invalid value for '%s': must be of type %s", param, requiredType);
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+
+        final String requiredType = ex.getRequiredType() != null
+                ? ex.getRequiredType().getSimpleName()
+                : "unknown";
+
+        final String message = String.format(
+                "Invalid value for '%s': must be of type %s",
+                param,
+                requiredType);
+
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                message,
+                request);
     }
 
-    // 12. Fallback for any other unexpected exceptions
+    // 12. Fallback for unexpected exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGlobalException(Exception ex) {
-        return new ResponseEntity<>("Unexpected server error", HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorResponse> handleGlobalException(
+            Exception ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "Unexpected server error",
+                request);
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(
+            HttpStatus status,
+            String error,
+            String message,
+            WebRequest request) {
+
+        String path = request.getDescription(false)
+                .replace("uri=", "");
+
+        ErrorResponse response = new ErrorResponse(
+                status.value(),
+                error,
+                message,
+                path,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(status)
+                .body(response);
     }
 
 }
