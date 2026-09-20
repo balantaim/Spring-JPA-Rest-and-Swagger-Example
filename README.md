@@ -97,7 +97,7 @@ Base User:
 Get token (Optional)
 
 ```bash
-curl --location --request POST 'localhost:8080/api/v1/auth/token' \
+curl --location --request POST 'localhost:8080/auth/token' \
 --header 'Authorization: Basic YWJ2QGFidi5iZzpwYXNzd29yZA=='
 ```
 

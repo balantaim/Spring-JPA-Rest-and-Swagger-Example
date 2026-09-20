@@ -26,6 +26,8 @@ public class ExceptionTest {
     private EmployeeController employeeController;
     @MockitoBean
     private EmployeeService employeeService;
+    @MockitoBean
+    private TokenService tokenService;
 
     @Test
     void testUnauthorizedAccess() throws Exception {

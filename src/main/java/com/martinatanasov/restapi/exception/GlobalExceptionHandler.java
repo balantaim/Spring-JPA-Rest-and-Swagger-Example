@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1. @Valid body errors
+    // @Valid body errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(
             MethodArgumentNotValidException ex,
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 2. @Validated query/path parameter errors
+    // @Validated query/path parameter errors
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponse> handleConstraintViolation(
             ConstraintViolationException ex,
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 3. Entity not found
+    // Entity not found
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFound(
             EntityNotFoundException ex,
@@ -72,7 +72,20 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 4. Resource already exists
+    // Employee not found
+    @ExceptionHandler(EmployeeNotFound.class)
+    public ResponseEntity<ErrorResponse> handleEmployeeNotFound(
+            EmployeeNotFound ex,
+            WebRequest request) {
+
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request);
+    }
+
+    // Resource already exists
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleResourceAlreadyExists(
             ResourceAlreadyExistsException ex,
@@ -85,7 +98,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 5. Malformed JSON
+    // Malformed JSON
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleMalformedJson(
             HttpMessageNotReadableException ex,
@@ -98,7 +111,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 6. Method not supported
+    // Method not supported
     @ExceptionHandler(org.springframework.web.HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErrorResponse> handleMethodNotSupported(
             org.springframework.web.HttpRequestMethodNotSupportedException ex,
@@ -111,7 +124,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 7. Data integrity violation
+    // Data integrity violation
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(
             DataIntegrityViolationException ex,
@@ -124,7 +137,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 8. Database query timeout
+    // Database query timeout
     @ExceptionHandler(org.springframework.dao.QueryTimeoutException.class)
     public ResponseEntity<ErrorResponse> handleQueryTimeout(
             org.springframework.dao.QueryTimeoutException ex,
@@ -137,7 +150,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 9. Hibernate/JDBC connection error
+    // Hibernate/JDBC connection error
     @ExceptionHandler(org.hibernate.exception.JDBCConnectionException.class)
     public ResponseEntity<ErrorResponse> handleJDBCConnectionException(
             org.hibernate.exception.JDBCConnectionException ex,
@@ -150,7 +163,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 10. Controller async timeout
+    // Controller async timeout
     @ExceptionHandler(AsyncRequestTimeoutException.class)
     public ResponseEntity<ErrorResponse> handleAsyncTimeout(
             AsyncRequestTimeoutException ex,
@@ -163,7 +176,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 11. Request parameter type mismatch
+    // Request parameter type mismatch
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleTypeMismatch(
             MethodArgumentTypeMismatchException ex,
@@ -187,7 +200,7 @@ public class GlobalExceptionHandler {
                 request);
     }
 
-    // 12. Fallback for unexpected exceptions
+    // Fallback for unexpected exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(
             Exception ex,

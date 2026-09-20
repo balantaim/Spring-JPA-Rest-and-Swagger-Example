@@ -2,6 +2,7 @@ package com.martinatanasov.restapi.controllers;
 
 import com.martinatanasov.restapi.model.EmployeeDTO;
 import com.martinatanasov.restapi.model.EmployeeLoginDTO;
+import com.martinatanasov.restapi.result.EmployeeResult;
 import com.martinatanasov.restapi.services.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,13 +16,11 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Optional;
 
 @Tag(name = "Employees REST API")
 @RequiredArgsConstructor
@@ -62,9 +61,7 @@ public class EmployeeController {
     })
     @GetMapping(BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> getEmployee(@PathVariable final Integer employeeId) {
-        return employeeService.getEmployee(employeeId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return handleResult(employeeService.getEmployee(employeeId));
     }
 
     @Operation(summary = "Get employee by first name", description = "Retrieve a single employee by first name")
@@ -80,9 +77,7 @@ public class EmployeeController {
     })
     @GetMapping(BASE_PATH + "/employees/names/{name}")
     public ResponseEntity<EmployeeDTO> getEmployeeByFirstName(@PathVariable final String name) {
-        return employeeService.getFirstEmployeeByFirstName(name)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return handleResult(employeeService.getFirstEmployeeByFirstName(name));
     }
 
     @Operation(summary = "Get employee by email", description = "Retrieve a single employee by email")
@@ -98,9 +93,7 @@ public class EmployeeController {
     })
     @GetMapping(BASE_PATH + "/employees/emails/{email}")
     public ResponseEntity<EmployeeDTO> getEmployeeByEmail(@PathVariable final String email) {
-        return employeeService.getEmployeeByEmail(email)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return handleResult(employeeService.getEmployeeByEmail(email));
     }
 
     @Operation(summary = "Add employee", description = "Add new employee record")
@@ -117,9 +110,7 @@ public class EmployeeController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = BASE_PATH + "/employees")
     public ResponseEntity<EmployeeDTO> registerEmployee(@Valid @RequestBody EmployeeLoginDTO employeeLoginDTO) {
         if (employeeLoginDTO.id() == null) {
-            final EmployeeDTO createdEmployee = employeeService.addEmployee(employeeLoginDTO);
-            return ResponseEntity.created(URI.create("/api/v1/employees/" + createdEmployee.id()))
-                    .body(createdEmployee);
+            return handleCreateResult(employeeService.addEmployee(employeeLoginDTO));
         }
         return ResponseEntity.badRequest().build();
     }
@@ -138,10 +129,7 @@ public class EmployeeController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = BASE_PATH + "/employees/{employeeId}")
     public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO,
             @PathVariable final Integer employeeId) {
-        Optional<EmployeeDTO> updatedEmployeeDTO = employeeService.updateEmployee(employeeId, employeeDTO);
-
-        return updatedEmployeeDTO.map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + employeeId));
+        return handleResult(employeeService.updateEmployee(employeeId, employeeDTO));
     }
 
     @Operation(summary = "Delete employees", description = "Delete single employee")
@@ -160,6 +148,21 @@ public class EmployeeController {
             size = 5;
         }
         return PageRequest.of(page, size);
+    }
+
+    private static ResponseEntity<EmployeeDTO> handleResult(EmployeeResult result) {
+        return switch (result) {
+            case EmployeeResult.Success success -> ResponseEntity.ok(success.employee());
+            case EmployeeResult.NotFound ignored -> ResponseEntity.notFound().build();
+        };
+    }
+
+    private static ResponseEntity<EmployeeDTO> handleCreateResult(EmployeeResult result) {
+        return switch (result) {
+            case EmployeeResult.Success success -> ResponseEntity.created(URI.create("/api/v1/employees/" + success.employee().id()))
+                    .body(success.employee());
+            case EmployeeResult.NotFound ignored -> ResponseEntity.notFound().build();
+        };
     }
 
 }

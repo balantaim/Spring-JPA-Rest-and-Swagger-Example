@@ -2,6 +2,7 @@ package com.martinatanasov.restapi.controllers;
 
 import com.martinatanasov.restapi.config.OpenApiUserControllerConfig;
 import com.martinatanasov.restapi.model.TokenResponseDTO;
+import com.martinatanasov.restapi.result.EmployeeResult;
 import com.martinatanasov.restapi.services.EmployeeService;
 import com.martinatanasov.restapi.services.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,19 +46,19 @@ public class AuthController {
     public ResponseEntity<TokenResponseDTO> getToken(Authentication authentication) {
         log.debug("Get token for user: {}", authentication.getName());
 
-        return employeeService
-                .getEmployeeByEmail(authentication.getName())
-                .map(employee -> {
-                    String token = tokenService.generateToken(authentication);
-                    log.info("Token granted for user: {}", authentication.getName());
-                    return ResponseEntity.ok(new TokenResponseDTO(token));
-                })
-                .orElseGet(() -> {
-                    log.warn("Token request denied for user: {}", authentication.getName());
-
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                            .build();
-                });
+        EmployeeResult result = employeeService.getEmployeeByEmail(authentication.getName());
+        return switch (result) {
+            case EmployeeResult.Success ignored -> {
+                String token = tokenService.generateToken(authentication);
+                log.info("Token granted for user: {}", authentication.getName());
+                yield ResponseEntity.ok(new TokenResponseDTO(token));
+            }
+            case EmployeeResult.NotFound ignored -> {
+                log.warn("Token request denied for user: {}", authentication.getName());
+                yield ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .build();
+            }
+        };
     }
 
 }

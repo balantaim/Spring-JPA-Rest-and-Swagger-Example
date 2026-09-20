@@ -6,6 +6,7 @@ import com.martinatanasov.restapi.mappers.EmployeeMapper;
 import com.martinatanasov.restapi.model.EmployeeDTO;
 import com.martinatanasov.restapi.model.EmployeeLoginDTO;
 import com.martinatanasov.restapi.repositories.EmployeeRepository;
+import com.martinatanasov.restapi.result.EmployeeResult;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,23 +34,36 @@ class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<EmployeeDTO> getEmployee(final Integer id) {
-        return repository.findById(id).map(mapper::toEmployeeDTO);
+    public EmployeeResult getEmployee(final Integer id) {
+        Optional<EmployeeDTO> employeeDTO = repository.findById(id).map(mapper::toEmployeeDTO);
+        if (employeeDTO.isPresent()) {
+            return new EmployeeResult.Success(employeeDTO.get());
+        }
+        return new EmployeeResult.NotFound();
     }
 
     @Override
-    public Optional<EmployeeDTO> getFirstEmployeeByFirstName(final String firstName) {
-        return repository.findFirstByFirstName(firstName).map(mapper::toEmployeeDTO);
+    public EmployeeResult getFirstEmployeeByFirstName(final String firstName) {
+        Optional<EmployeeDTO> employeeDTO = repository.findFirstByFirstName(firstName)
+                .map(mapper::toEmployeeDTO);
+        if (employeeDTO.isPresent()) {
+            return new EmployeeResult.Success(employeeDTO.get());
+        }
+        return new EmployeeResult.NotFound();
     }
 
     @Override
-    public Optional<EmployeeDTO> getEmployeeByEmail(final String email) {
-        return repository.findByEmail(email).map(mapper::toEmployeeDTO);
+    public EmployeeResult getEmployeeByEmail(final String email) {
+        Optional<EmployeeDTO> employeeDTO = repository.findByEmail(email).map(mapper::toEmployeeDTO);
+        if (employeeDTO.isPresent()) {
+            return new EmployeeResult.Success(employeeDTO.get());
+        }
+        return new EmployeeResult.NotFound();
     }
 
     @Transactional
     @Override
-    public EmployeeDTO addEmployee(EmployeeLoginDTO employeeLoginDTO) {
+    public EmployeeResult addEmployee(EmployeeLoginDTO employeeLoginDTO) {
         Optional<Employee> existingEmployee = repository.findByEmail(employeeLoginDTO.email());
         if (existingEmployee.isPresent()) {
             log.error("Employee with this email already exists: {}", employeeLoginDTO.email());
@@ -61,19 +75,23 @@ class EmployeeServiceImpl implements EmployeeService {
 
         final Employee savedEmployee = repository.save(newEmployee);
         log.info("Added new employee: {}", savedEmployee);
-        return mapper.toEmployeeDTO(savedEmployee);
+        return new EmployeeResult.Success(mapper.toEmployeeDTO(savedEmployee));
     }
 
     @Transactional
     @Override
-    public Optional<EmployeeDTO> updateEmployee(final Integer employeeId, EmployeeDTO employeeDTO) {
-        return repository.findById(employeeId)
+    public EmployeeResult updateEmployee(final Integer employeeId, EmployeeDTO employeeDTO) {
+        Optional<EmployeeDTO> newEmployeeDTO = repository.findById(employeeId)
                 .map(existing -> {
                     existing.setFirstName(employeeDTO.firstName());
                     existing.setLastName(employeeDTO.lastName());
                     existing.setEmail(employeeDTO.email());
                     return mapper.toEmployeeDTO(repository.save(existing));
                 });
+        if (newEmployeeDTO.isPresent()) {
+            return new EmployeeResult.Success(newEmployeeDTO.get());
+        }
+        return  new EmployeeResult.NotFound();
     }
 
     @Transactional
